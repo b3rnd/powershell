@@ -5,11 +5,10 @@ $Mailboxes = Get-Mailbox -ResultSize unlimited -Filter {(RecipientTypeDetails -e
 Foreach ($Mailbox in $Mailboxes)
 {
 	$Email = $Mailbox 
-	$Addr = $Mailbox.UserPrincipalName | Out-String
+	$Addr = $Mailbox.PrimarySmtpAddress.Local | Out-String
 	$Addr = $Addr.ToLower()
-	$Addr = $Addr.Substring(0,$Addr.IndexOf("@")) + $MailDomain
+	$Addr = $Addr + $MailDomain
 	$Email.EmailAddresses +=("smtp:" + $Addr)
-	#$Email.EmailAddresses
 	Set-Mailbox –Identity $Email.Alias -EmailAddresses $Email.EmailAddresses
 }
 
@@ -18,10 +17,9 @@ $rMailboxes = Get-RemoteMailbox -ResultSize unlimited
 Foreach ($rMailbox in $rMailboxes)
 {
 	$Email = $rMailbox 
-	$Addr = $rMailbox.UserPrincipalName | Out-String
+	$Addr = $rMailbox.PrimarySmtpAddress.Local | Out-String
 	$Addr = $Addr.ToLower()
-	$Addr = $Addr.Substring(0,$Addr.IndexOf("@")) + $MailDomain
+	$Addr = $Addr + $MailDomain
 	$Email.EmailAddresses +=("smtp:" + $Addr)
-	#$Email.EmailAddresses
 	Set-RemoteMailbox –Identity $Email.Alias -EmailAddresses $Email.EmailAddresses
 }
