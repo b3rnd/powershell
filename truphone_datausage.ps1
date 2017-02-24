@@ -7,16 +7,13 @@ $ie = New-Object -comobject InternetExplorer.Application -Property @{
 
 do { Start-Sleep -m 100 } while ( $ie.ReadyState -ne 4 )
 
-$ie.Document.getElementById("Username").value = "your_username"
+$ie.Document.getElementById("Email").value = "your_username"
 $ie.Document.getElementById("Password").value = "your_password"
 
 do { Start-Sleep -m 500 } while ( $ie.ReadyState -ne 4 )
 
-$ie.Document.getElementById("loginSubmit").click()
-
-do { Start-Sleep -m 5000 } while ( $ie.ReadyState -ne 4 )
-
-$ie.Document.getElementById("loginSubmit").click()
+$login = $ie.Document.documentElement.getElementsByClassName("btn btn-lg btn-primary") | Select-Object -First 1
+$login.click()
 
 do { Start-Sleep -m 5000 } while ( $ie.ReadyState -ne 4 )
 
